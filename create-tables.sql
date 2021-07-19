@@ -1,0 +1,40 @@
+/*
+drop table Vote;
+drop table User;
+drop table Session;
+drop table Pauta;
+*/
+
+USE vote;
+CREATE TABLE IF NOT EXISTS User(
+userId INT PRIMARY KEY AUTO_INCREMENT NOT NULL,
+name VARCHAR(100) NOT NULL,
+cpf VARCHAR(11) NOT NULL
+);
+
+CREATE TABLE IF NOT EXISTS Pauta(
+pautaId INT PRIMARY KEY AUTO_INCREMENT NOT NULL,
+description VARCHAR(100) NOT NULL,
+creationDate DATETIME NOT NULL
+);
+
+CREATE TABLE IF NOT EXISTS Session(
+sessionId INT PRIMARY KEY AUTO_INCREMENT NOT NULL,
+description VARCHAR(100) NOT NULL,
+lifetime INT DEFAULT 1,
+creationDate DATETIME NOT NULL,
+pautaId INT NOT NULL,
+FOREIGN KEY (pautaId) REFERENCES Pauta(pautaId)
+);
+
+CREATE TABLE IF NOT EXISTS Vote(
+voteId INT PRIMARY KEY AUTO_INCREMENT NOT NULL,
+choice BOOLEAN NOT NULL,
+voteDateTime DATETIME NOT NULL,
+sessionId INT NOT NULL,
+userId INT NOT NULL,
+FOREIGN KEY (sessionId) REFERENCES Session(sessionId),
+FOREIGN KEY (userId) REFERENCES User(userId)
+);
+
+
